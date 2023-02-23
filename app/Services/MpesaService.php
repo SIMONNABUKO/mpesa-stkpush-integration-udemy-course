@@ -55,6 +55,7 @@ class MpesaService
     }
     public function processCallbackData($data)
     {
+        Log::info("Callback data:" . json_encode($data));
         try {
             $response_code = $data['Body']['stkCallback']['ResultCode'] ?? null;
             if ($response_code && $response_code == 0) {
