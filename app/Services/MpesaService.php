@@ -34,7 +34,7 @@ class MpesaService
                 "PartyA" => $phone,
                 "PartyB" => env('MPESA_PARTYB'), //important
                 "PhoneNumber" => $phone,
-                "CallBackURL" => "https://mydomain.com/pat",
+                "CallBackURL" => "https://igslot.efitabu.co.ke/api/mpesa/process-data",
                 "AccountReference" => "Test",
                 "TransactionDesc" => "Test"
             ];
