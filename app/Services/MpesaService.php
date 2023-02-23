@@ -58,7 +58,7 @@ class MpesaService
         Log::info("Callback data:" . json_encode($data));
         try {
             $response_code = $data['Body']['stkCallback']['ResultCode'] ?? null;
-            if ($response_code && $response_code == 0) {
+            if ($response_code == 0) {
                 $payment_data = [
                     'MerchantRequestID' => $data['Body']['stkCallback']['MerchantRequestID'],
                     'CheckoutRequestID' => $data['Body']['stkCallback']['CheckoutRequestID'],
