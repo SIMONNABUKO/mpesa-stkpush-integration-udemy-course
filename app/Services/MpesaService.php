@@ -64,9 +64,15 @@ class MpesaService
                     'CheckoutRequestID' => $data['Body']['stkCallback']['CheckoutRequestID'],
                     'amount' => $data['Body']['stkCallback']['CallbackMetadata']['Item'][0]['Value'],
                     'mpesa_receipt_number' => $data['Body']['stkCallback']['CallbackMetadata']['Item'][1]['Value'],
+                    'mpesa_transaction_date' => $data['Body']['stkCallback']['CallbackMetadata']['Item'][3]['Value'],
                     'phone' => $data['Body']['stkCallback']['CallbackMetadata']['Item'][4]['Value'],
                 ];
-                Log::info("payment data:" . json_encode($payment_data));
+                MpesaPayment::create($payment_data);
+                $transaction = MpesaTransaction::where('CheckoutRequestID', $payment_data['CheckoutRequestID'])->where('status',0)->first();
+                if ($transaction) {
+                    $transaction->status = 1;
+                    $transaction->save();
+                }
             } else {
                 Log::error("Error processing callback data");
             }
