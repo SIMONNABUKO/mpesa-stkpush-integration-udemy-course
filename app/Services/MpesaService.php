@@ -67,9 +67,12 @@ class MpesaService
                     'mpesa_transaction_date' => $data['Body']['stkCallback']['CallbackMetadata']['Item'][3]['Value'],
                     'phone' => $data['Body']['stkCallback']['CallbackMetadata']['Item'][4]['Value'],
                 ];
-                MpesaPayment::create($payment_data);
+               
                 $transaction = MpesaTransaction::where('CheckoutRequestID', $payment_data['CheckoutRequestID'])->where('status',0)->first();
+                
                 if ($transaction) {
+                    $payment_data['transaction_id'] = $transaction->id;
+                    MpesaPayment::create($payment_data);
                     $transaction->status = 1;
                     $transaction->save();
                 }
